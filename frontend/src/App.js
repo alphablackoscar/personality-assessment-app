@@ -5,7 +5,7 @@ import './App.css';
 const App = () => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [responses, setResponses] = useState([]);
+  const [responses, setResponses] = useState(new Array(30).fill(null));
   const [selectedOption, setSelectedOption] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [scores, setScores] = useState(null);
@@ -18,8 +18,8 @@ const App = () => {
   const loadQuestions = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/questions`);
-      const questionsData = response.data;
-      const shuffled = shuffleArray([...questionsData]).slice(0, 10);
+      const questionsData = response.data; // 配列を直接取得
+      const shuffled = shuffleArray([...questionsData]); // 30問全て
       setQuestions(questionsData);
       setShuffledQuestions(shuffled);
     } catch (error) {
@@ -49,24 +49,41 @@ const App = () => {
       selectedFactor: selectedOption.factor
     };
 
-    const newResponses = [...responses, newResponse];
+    // インデックスベースで更新
+    const newResponses = [...responses];
+    newResponses[currentQuestion] = newResponse;
     setResponses(newResponses);
     setSelectedOption(null);
 
-    if (currentQuestion < 9) {
+    if (currentQuestion < 29) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      calculateScores(newResponses);
+      // nullでない回答のみでスコア計算
+      const validResponses = newResponses.filter(r => r !== null);
+      calculateScores(validResponses);
     }
   };
 
   const handleBack = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
-      setResponses(responses.slice(0, -1));
       setSelectedOption(null);
+      // responses配列は変更しない（インデックスベース管理）
     }
   };
+
+  // 戻った問題で前回選択していた回答を復元
+  useEffect(() => {
+    const previousResponse = responses[currentQuestion];
+    if (previousResponse) {
+      setSelectedOption({
+        option: previousResponse.selectedOption,
+        factor: previousResponse.selectedFactor
+      });
+    } else {
+      setSelectedOption(null);
+    }
+  }, [currentQuestion, responses]);
 
   const calculateScores = (allResponses) => {
     const factorCounts = { C: 0, A: 0, E: 0, O: 0, N: 0, H: 0 };
@@ -102,18 +119,18 @@ const App = () => {
 
   const handleRestart = () => {
     setCurrentQuestion(0);
-    setResponses([]);
+    setResponses(new Array(30).fill(null));
     setSelectedOption(null);
     setShowResult(false);
     setScores(null);
-    const shuffled = shuffleArray([...questions]).slice(0, 10);
+    const shuffled = shuffleArray([...questions]); // 30問全て
     setShuffledQuestions(shuffled);
   };
 
   const renderProgressDots = () => {
     return (
       <div className="progress-dots">
-        {Array.from({ length: 10 }, (_, i) => (
+        {Array.from({ length: 30 }, (_, i) => (
           <div
             key={i}
             className={`dot ${i === currentQuestion ? 'current' : ''} ${i < currentQuestion ? 'completed' : ''}`}
@@ -133,7 +150,7 @@ const App = () => {
     return (
       <div className="question-container">
         <div className="question-header">
-          <div className="question-counter">{currentQuestion + 1}/10</div>
+          <div className="question-counter">{currentQuestion + 1}/30</div>
           {renderProgressDots()}
         </div>
         
