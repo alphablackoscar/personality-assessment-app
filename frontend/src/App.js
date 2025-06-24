@@ -5,7 +5,7 @@ import './App.css';
 const App = () => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [responses, setResponses] = useState([]);
+  const [responses, setResponses] = useState(new Array(10).fill(null));
   const [selectedOption, setSelectedOption] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [scores, setScores] = useState(null);
@@ -49,30 +49,52 @@ const App = () => {
       selectedFactor: selectedOption.factor
     };
 
-    const newResponses = [...responses, newResponse];
+    const newResponses = [...responses];
+    newResponses[currentQuestion] = newResponse;
     setResponses(newResponses);
     setSelectedOption(null);
 
     if (currentQuestion < 9) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      calculateScores(newResponses);
+      calculateScores(newResponses.filter(r => r !== null));
     }
   };
 
   const handleBack = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
-      setResponses(responses.slice(0, -1));
-      setSelectedOption(null);
+      // Get the previous response if it exists
+      const prevResponse = responses[currentQuestion - 1];
+      if (prevResponse) {
+        setSelectedOption({
+          option: prevResponse.selectedOption,
+          factor: prevResponse.selectedFactor
+        });
+      } else {
+        setSelectedOption(null);
+      }
     }
   };
 
   const calculateScores = (allResponses) => {
     const factorCounts = { C: 0, A: 0, E: 0, O: 0, N: 0, H: 0 };
     
-    allResponses.forEach(response => {
-      factorCounts[response.selectedFactor]++;
+    allResponses.forEach((response) => {
+      // Find the question by ID since we're filtering nulls
+      const question = shuffledQuestions.find(q => q.id === response.questionId);
+      const selectedFactor = response.selectedFactor;
+      const weight = question.weight || 1;
+      
+      // Selected factor: minus weight
+      factorCounts[selectedFactor] -= weight;
+      
+      // Non-selected factors: plus weight
+      ['C', 'A', 'E', 'O', 'N', 'H'].forEach(factor => {
+        if (factor !== selectedFactor) {
+          factorCounts[factor] += weight;
+        }
+      });
     });
 
     const values = Object.values(factorCounts);
@@ -91,7 +113,7 @@ const App = () => {
 
   const handleRestart = () => {
     setCurrentQuestion(0);
-    setResponses([]);
+    setResponses(new Array(10).fill(null));
     setSelectedOption(null);
     setShowResult(false);
     setScores(null);
