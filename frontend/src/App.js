@@ -5,7 +5,7 @@ import './App.css';
 const App = () => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [responses, setResponses] = useState(new Array(10).fill(null));
+  const [responses, setResponses] = useState(new Array(30).fill(null));
   const [selectedOption, setSelectedOption] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [scores, setScores] = useState(null);
@@ -19,7 +19,7 @@ const App = () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/questions`);
       const questionsData = response.data;
-      const shuffled = shuffleArray([...questionsData]).slice(0, 10);
+      const shuffled = shuffleArray([...questionsData]);
       setQuestions(questionsData);
       setShuffledQuestions(shuffled);
     } catch (error) {
@@ -54,7 +54,7 @@ const App = () => {
     setResponses(newResponses);
     setSelectedOption(null);
 
-    if (currentQuestion < 9) {
+    if (currentQuestion < 29) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
       calculateScores(newResponses.filter(r => r !== null));
@@ -76,6 +76,37 @@ const App = () => {
       }
     }
   };
+
+  // スペースキーでの次へ機能
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === 'Space' && !showResult && selectedOption) {
+        event.preventDefault();
+        
+        const newResponse = {
+          questionId: shuffledQuestions[currentQuestion].id,
+          selectedOption: selectedOption.option,
+          selectedFactor: selectedOption.factor
+        };
+
+        const newResponses = [...responses];
+        newResponses[currentQuestion] = newResponse;
+        setResponses(newResponses);
+        setSelectedOption(null);
+
+        if (currentQuestion < 29) {
+          setCurrentQuestion(currentQuestion + 1);
+        } else {
+          calculateScores(newResponses.filter(r => r !== null));
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedOption, showResult, currentQuestion, responses, shuffledQuestions]);
 
   const calculateScores = (allResponses) => {
     const factorCounts = { C: 0, A: 0, E: 0, O: 0, N: 0, H: 0 };
@@ -113,18 +144,18 @@ const App = () => {
 
   const handleRestart = () => {
     setCurrentQuestion(0);
-    setResponses(new Array(10).fill(null));
+    setResponses(new Array(30).fill(null));
     setSelectedOption(null);
     setShowResult(false);
     setScores(null);
-    const shuffled = shuffleArray([...questions]).slice(0, 10);
+    const shuffled = shuffleArray([...questions]);
     setShuffledQuestions(shuffled);
   };
 
   const renderProgressDots = () => {
     return (
       <div className="progress-dots">
-        {Array.from({ length: 10 }, (_, i) => (
+        {Array.from({ length: 30 }, (_, i) => (
           <div
             key={i}
             className={`dot ${i === currentQuestion ? 'current' : ''} ${i < currentQuestion ? 'completed' : ''}`}
@@ -144,7 +175,7 @@ const App = () => {
     return (
       <div className="question-container">
         <div className="question-header">
-          <div className="question-counter">{currentQuestion + 1}/10</div>
+          <div className="question-counter">{currentQuestion + 1}/30</div>
           {renderProgressDots()}
         </div>
         
@@ -176,7 +207,7 @@ const App = () => {
             onClick={handleNext}
             disabled={!selectedOption}
           >
-            次へ
+            次へ (Space)
           </button>
         </div>
       </div>
