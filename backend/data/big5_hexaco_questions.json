@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "title": "人材選考における許容度測定（BIG5+HEXACO）",
+    "description": "ネガティブ特性の2択により最低許容ラインを発見",
+    "factors": ["C", "A", "E", "O", "N", "H"],
+    "totalQuestions": 30,
+    "factorAppearance": 10
+  },
+  "factorCount": {
+    "C": 10,
+    "A": 10,
+    "E": 10,
+    "O": 10,
+    "N": 10,
+    "H": 10
+  },
+  "questions": [
+    {"id": 1, "type": "negative", "weight": 1, "optionA": {"text": "時間を守らない", "factor": "C"}, "optionB": {"text": "他人に冷たくする", "factor": "A"}},
+    {"id": 2, "type": "negative", "weight": 1, "optionA": {"text": "責任を放棄する", "factor": "C"}, "optionB": {"text": "行動を起こさない", "factor": "E"}},
+    {"id": 3, "type": "negative", "weight": 1, "optionA": {"text": "変化を拒否する", "factor": "O"}, "optionB": {"text": "感情が不安定", "factor": "N"}},
+    {"id": 4, "type": "negative", "weight": 1, "optionA": {"text": "嘘をつく", "factor": "H"}, "optionB": {"text": "整理整頓しない", "factor": "C"}},
+    {"id": 5, "type": "negative", "weight": 1, "optionA": {"text": "チームワークを無視する", "factor": "A"}, "optionB": {"text": "人との交流を避ける", "factor": "E"}},
+    {"id": 6, "type": "negative", "weight": 1, "optionA": {"text": "既成概念に固執する", "factor": "O"}, "optionB": {"text": "プレッシャーに弱い", "factor": "N"}},
+    {"id": 7, "type": "negative", "weight": 1, "optionA": {"text": "他人を見下す", "factor": "H"}, "optionB": {"text": "締切を破る", "factor": "C"}},
+    {"id": 8, "type": "negative", "weight": 1, "optionA": {"text": "他人の気持ちを無視する", "factor": "A"}, "optionB": {"text": "意思疎通が下手", "factor": "E"}},
+    {"id": 9, "type": "negative", "weight": 1, "optionA": {"text": "新しい挑戦を嫌がる", "factor": "O"}, "optionB": {"text": "些細なことで不安になる", "factor": "N"}},
+    {"id": 10, "type": "negative", "weight": 1, "optionA": {"text": "自分の利益だけを考える", "factor": "H"}, "optionB": {"text": "計画を立てない", "factor": "C"}},
+    {"id": 11, "type": "negative", "weight": 1, "optionA": {"text": "意見を譲らない", "factor": "A"}, "optionB": {"text": "自分から動かない", "factor": "E"}},
+    {"id": 12, "type": "negative", "weight": 1, "optionA": {"text": "古いやり方に固執する", "factor": "O"}, "optionB": {"text": "小さなことで動揺する", "factor": "N"}},
+    {"id": 13, "type": "negative", "weight": 1, "optionA": {"text": "自分を大きく見せる", "factor": "H"}, "optionB": {"text": "身の回りが乱雑", "factor": "C"}},
+    {"id": 14, "type": "negative", "weight": 1, "optionA": {"text": "自分のことしか考えない", "factor": "A"}, "optionB": {"text": "人前で発言しない", "factor": "E"}},
+    {"id": 15, "type": "negative", "weight": 1, "optionA": {"text": "新しいアイデアを出さない", "factor": "O"}, "optionB": {"text": "将来を心配しすぎる", "factor": "N"}},
+    {"id": 16, "type": "negative", "weight": 1, "optionA": {"text": "見栄を張りたがる", "factor": "H"}, "optionB": {"text": "規則を破る", "factor": "C"}},
+    {"id": 17, "type": "negative", "weight": 1, "optionA": {"text": "他人の立場を理解しない", "factor": "A"}, "optionB": {"text": "自分の意見を言わない", "factor": "E"}},
+    {"id": 18, "type": "negative", "weight": 1, "optionA": {"text": "方法を変えたがらない", "factor": "O"}, "optionB": {"text": "すぐに落ち込む", "factor": "N"}},
+    {"id": 19, "type": "negative", "weight": 1, "optionA": {"text": "事実を隠す", "factor": "H"}, "optionB": {"text": "集中が続かない", "factor": "C"}},
+    {"id": 20, "type": "negative", "weight": 1, "optionA": {"text": "他人に敵意を向ける", "factor": "A"}, "optionB": {"text": "積極的に関わらない", "factor": "E"}},
+    {"id": 21, "type": "negative", "weight": 1, "optionA": {"text": "発想力が乏しい", "factor": "O"}, "optionB": {"text": "すぐにイライラする", "factor": "N"}},
+    {"id": 22, "type": "negative", "weight": 1, "optionA": {"text": "人を騙そうとする", "factor": "H"}, "optionB": {"text": "努力を怠る", "factor": "C"}},
+    {"id": 23, "type": "negative", "weight": 1, "optionA": {"text": "協力を拒む", "factor": "A"}, "optionB": {"text": "目立たないように行動する", "factor": "E"}},
+    {"id": 24, "type": "negative", "weight": 1, "optionA": {"text": "伝統にこだわりすぎる", "factor": "O"}, "optionB": {"text": "感情の起伏が激しい", "factor": "N"}},
+    {"id": 25, "type": "negative", "weight": 1, "optionA": {"text": "建前だけで本音を隠す", "factor": "H"}, "optionB": {"text": "任された仕事をしない", "factor": "C"}},
+    {"id": 26, "type": "negative", "weight": 1, "optionA": {"text": "仲間外れを作る", "factor": "A"}, "optionB": {"text": "人との関わりを避ける", "factor": "E"}},
+    {"id": 27, "type": "negative", "weight": 1, "optionA": {"text": "物事を狭く捉える", "factor": "O"}, "optionB": {"text": "気分がコロコロ変わる", "factor": "N"}},
+    {"id": 28, "type": "negative", "weight": 1, "optionA": {"text": "裏で悪知恵を働かせる", "factor": "H"}, "optionB": {"text": "他人を攻撃する", "factor": "A"}},
+    {"id": 29, "type": "negative", "weight": 1, "optionA": {"text": "卑怯な手段を使う", "factor": "H"}, "optionB": {"text": "自分を表現しない", "factor": "E"}},
+    {"id": 30, "type": "negative", "weight": 1, "optionA": {"text": "環境の変化についていけない", "factor": "O"}, "optionB": {"text": "ちょっとしたことで心が折れる", "factor": "N"}}
+  ]
+}
