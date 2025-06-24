@@ -71,8 +71,19 @@ const App = () => {
   const calculateScores = (allResponses) => {
     const factorCounts = { C: 0, A: 0, E: 0, O: 0, N: 0, H: 0 };
     
-    allResponses.forEach(response => {
-      factorCounts[response.selectedFactor]++;
+    allResponses.forEach((response) => {
+      const question = shuffledQuestions.find(q => q.id === response.questionId);
+      const selectedFactor = response.selectedFactor;
+      const weight = question.weight || 1;
+      
+      // 選択された因子: +1 (許容可能)
+      factorCounts[selectedFactor] += weight;
+      
+      // 非選択因子（問題内のもう一方のみ）: -1 (許容不可)
+      const otherFactor = question.optionA.factor === selectedFactor 
+        ? question.optionB.factor 
+        : question.optionA.factor;
+      factorCounts[otherFactor] -= weight;
     });
 
     const values = Object.values(factorCounts);
